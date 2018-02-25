@@ -267,6 +267,53 @@ public:
 			}
 		}
 	}
+
+	static void Invert(GrayData& gData) throw()
+	{
+		BYTE* pd = gData.GetAddress();
+		int iW = gData.GetWidth();
+		int iH = gData.GetHeight();
+		for( int i = 0; i < iH; i ++ ) {
+			for( int j = 0; j < iW; j ++ ) {
+				*pd = 255 - *pd;
+				pd ++;
+			}
+		}
+	}
+	static void BoolInvert(GrayData& gData) throw()
+	{
+		BYTE* pd = gData.GetAddress();
+		int iW = gData.GetWidth();
+		int iH = gData.GetHeight();
+		for( int i = 0; i < iH; i ++ ) {
+			for( int j = 0; j < iW; j ++ ) {
+				if( *pd != 0 )
+					*pd = 0;
+				else
+					*pd = 255;
+				pd ++;
+			}
+		}
+	}
+	//然后对于大于阈值的pixel重新处理，将灰度图变为二值图
+	static void ToBinary(int iThreshold, GrayData& gData) throw()
+	{
+		BYTE* pd = gData.GetAddress();
+		int height = gData.GetHeight();
+		int width = gData.GetWidth();
+
+		for( int i = 0; i < height; i ++ ) {
+			for( int j = 0; j < width; j ++ ) {
+				int temp = (int)(*pd);
+
+				if( temp >= iThreshold )
+					*pd = (BYTE)255;
+				else
+					*pd = (BYTE)0;
+				pd++;
+			}
+		}
+	}
 };
 
 ////////////////////////////////////////////////////////////////////////////////
