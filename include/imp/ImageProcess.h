@@ -20,7 +20,7 @@ public:
 			histogram[i] = 0.0;
 		}
 
-		const BYTE* ps = gData.GetAddress();
+		const uchar* ps = gData.GetAddress();
 
 		for( int i = 0; i < height; i++ ) {
 			for( int j = 0; j < width; j++ ) {
@@ -83,7 +83,7 @@ private:
 	//给出种子点的标记
 	static void label_one_growing(int iLabel, int x, int y, const GrayData& gData, std::vector<int>& matrix)
 	{
-		const BYTE* ps = gData.GetAddress();
+		const uchar* ps = gData.GetAddress();
 		int height = gData.GetHeight();
 		int width = gData.GetWidth();
 
@@ -146,7 +146,7 @@ public:
 	//所有都标记
 	static int Label(const GrayData& gData, std::vector<int>& matrix)
 	{
-		const BYTE* ps = gData.GetAddress();
+		const uchar* ps = gData.GetAddress();
 		int height = gData.GetHeight();
 		int width = gData.GetWidth();
 
@@ -180,7 +180,7 @@ public:
 		const int c_coord_x[] = { -1,  0,  1, -1, 1, -1, 0, 1 };
 		const int c_coord_y[] = { -1, -1, -1,  0, 0,  1, 1, 1 };
 		const int c_num = 8;
-		BYTE* pd = gData.GetAddress();
+		uchar* pd = gData.GetAddress();
 		int iW = gData.GetWidth();
 		int iH = gData.GetHeight();
 		for( int i = 0; i < iH; i ++ ) {

@@ -28,7 +28,7 @@ public:
 	{
 		return m_buffer.data();
 	}
-	const BYTE* GetAddress() const throw()
+	const uchar* GetAddress() const throw()
 	{
 		return m_buffer.data();
 	}
@@ -58,11 +58,11 @@ public:
 			return ;
 		}
 		dest.Allocate(m_iW, m_iH);
-		::memcpy(dest.GetAddress(), GetAddress(), m_iW * m_iH * sizeof(BYTE));
+		::memcpy(dest.GetAddress(), GetAddress(), m_iW * m_iH * sizeof(uchar));
 	}
 
 private:
-	std::vector<BYTE> m_buffer;  //gray array
+	std::vector<uchar> m_buffer;  //gray array
 	int m_iW, m_iH;//宽度、高度
 };
 
@@ -89,27 +89,27 @@ public:
 		return m_spR.empty() || m_spG.empty() || m_spB.empty();
 	}
 
-	BYTE* GetAddressR() throw()
+	uchar* GetAddressR() throw()
 	{
 		return m_spR.data();
 	}
-	const BYTE* GetAddressR() const throw()
+	const uchar* GetAddressR() const throw()
 	{
 		return m_spR.data();
 	}
-	BYTE* GetAddressG() throw()
+	uchar* GetAddressG() throw()
 	{
 		return m_spG.data();
 	}
-	const BYTE* GetAddressG() const throw()
+	const uchar* GetAddressG() const throw()
 	{
 		return m_spG.data();
 	}
-	BYTE* GetAddressB() throw()
+	uchar* GetAddressB() throw()
 	{
 		return m_spB.data();
 	}
-	const BYTE* GetAddressB() const throw()
+	const uchar* GetAddressB() const throw()
 	{
 		return m_spB.data();
 	}
@@ -135,9 +135,9 @@ public:
 	}
 
 private:
-	std::vector<BYTE> m_spR;
-	std::vector<BYTE> m_spG;
-	std::vector<BYTE> m_spB;
+	std::vector<uchar> m_spR;
+	std::vector<uchar> m_spG;
+	std::vector<uchar> m_spB;
 	int m_iW, m_iH;
 };
 
@@ -164,9 +164,9 @@ public:
 			image.GetColorTable(0, 256, table);//得到图像的RGB信息
 
 		BYTE* ps = (BYTE*)image.GetBits();//返回图像数据buffer指针
-		BYTE* pdR = data.GetAddressR();
-		BYTE* pdG = data.GetAddressG();
-		BYTE* pdB = data.GetAddressB();
+		uchar* pdR = data.GetAddressR();
+		uchar* pdG = data.GetAddressG();
+		uchar* pdB = data.GetAddressB();
 
 		for( int i = 0; i < iH; i ++ ) {
 			BYTE* psr = ps;
@@ -197,9 +197,9 @@ public:
 		if( !image.Create(iW, iH, 24) )
 			return ;
 
-		const BYTE* psR = data.GetAddressR();
-		const BYTE* psG = data.GetAddressG();
-		const BYTE* psB = data.GetAddressB();
+		const uchar* psR = data.GetAddressR();
+		const uchar* psG = data.GetAddressG();
+		const uchar* psB = data.GetAddressB();
 		BYTE* pd = (BYTE*)image.GetBits();
 		for( int i = 0; i < iH; i ++ ) {
 			BYTE* pdr = pd;
@@ -231,7 +231,7 @@ public:
 		}
 		image.SetColorTable(0, 256, table);
 
-		const BYTE* ps = data.GetAddress();
+		const uchar* ps = data.GetAddress();
 		BYTE* pd = (BYTE*)image.GetBits();
 		for( int i = 0; i < iH; i ++ ) {
 			BYTE* pdr = pd;
@@ -252,10 +252,10 @@ public:
 		int width = cData.GetWidth();
 		gData.Allocate(width, height);
 
-		const BYTE* psR = cData.GetAddressR();
-		const BYTE* psG = cData.GetAddressG();
-		const BYTE* psB = cData.GetAddressB();
-		BYTE* pd  = gData.GetAddress();
+		const uchar* psR = cData.GetAddressR();
+		const uchar* psG = cData.GetAddressG();
+		const uchar* psB = cData.GetAddressB();
+		uchar* pd  = gData.GetAddress();
 
 		for( int i = 0; i < height; i ++ ) {
 			for( int j = 0; j < width; j ++ ) {
@@ -263,14 +263,14 @@ public:
 				double dG = (double)(*psG ++);
 				double dB = (double)(*psB ++);
 				double v = 0.11 * dR + 0.59 * dG + 0.3 * dB;
-				*pd ++ = (BYTE)((v > 255.0) ? 255.0 : ((v < 0.0) ? 0.0 : v));
+				*pd ++ = (uchar)((v > 255.0) ? 255.0 : ((v < 0.0) ? 0.0 : v));
 			}
 		}
 	}
 
 	static void Invert(GrayData& gData) throw()
 	{
-		BYTE* pd = gData.GetAddress();
+		uchar* pd = gData.GetAddress();
 		int iW = gData.GetWidth();
 		int iH = gData.GetHeight();
 		for( int i = 0; i < iH; i ++ ) {
@@ -282,7 +282,7 @@ public:
 	}
 	static void BoolInvert(GrayData& gData) throw()
 	{
-		BYTE* pd = gData.GetAddress();
+		uchar* pd = gData.GetAddress();
 		int iW = gData.GetWidth();
 		int iH = gData.GetHeight();
 		for( int i = 0; i < iH; i ++ ) {
@@ -298,7 +298,7 @@ public:
 	//然后对于大于阈值的pixel重新处理，将灰度图变为二值图
 	static void ToBinary(int iThreshold, GrayData& gData) throw()
 	{
-		BYTE* pd = gData.GetAddress();
+		uchar* pd = gData.GetAddress();
 		int height = gData.GetHeight();
 		int width = gData.GetWidth();
 
@@ -307,9 +307,9 @@ public:
 				int temp = (int)(*pd);
 
 				if( temp >= iThreshold )
-					*pd = (BYTE)255;
+					*pd = (uchar)255;
 				else
-					*pd = (BYTE)0;
+					*pd = (uchar)0;
 				pd++;
 			}
 		}
