@@ -11,6 +11,7 @@
 #include <map>
 #include <stack>
 #include <array>
+#include <string>
 
 //types
 typedef unsigned char  uchar;
@@ -36,6 +37,13 @@ virtual std::shared_ptr<ICommandBase> get_Redo() = 0;
 */
 };
 
+/*
+std::any -> std::tuple
+or
+std::function<bool()> = [...]()->bool { ... }
+or
+std::function<bool()> = std::bind...
+*/
 class CommandManager
 {
 public:
